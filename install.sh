@@ -4,7 +4,7 @@ FOLDER=$(dirname $(realpath "$0"))
 cd $FOLDER
 
 sudo apt-get install -y libsdl-ttf2.0-0
-yes | sudo pip install xboxdrv
+yes | sudo apt-get install xboxdrv
 
 for file in *.service; do
     [ -f "$file" ] || break

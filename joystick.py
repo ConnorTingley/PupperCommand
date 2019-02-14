@@ -1,5 +1,4 @@
 from UDPComms import Publisher, Subscriber, timeout
-from PS4Joystick import Joystick
 import xbox
 
 import time
@@ -7,7 +6,7 @@ import time
 ## you need to git clone the PS4Joystick repo and run `sudo bash install.sh`
 
 ## Configurable ##
-MESSAGE_RATE = 20
+MESSAGE_RATE = 30
 
 joystick_pub = Publisher(8830)
 joystick_subcriber = Subscriber(8840, timeout=0.01)
@@ -15,7 +14,6 @@ joystick = xbox.Joystick()
 
 while True:
     print("running")
-    values = joystick.get_input()
 
     left_y = joystick.leftY()
     right_y = joystick.rightY()
