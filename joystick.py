@@ -1,5 +1,6 @@
 from UDPComms import Publisher, Subscriber, timeout
 from PS4Joystick import Joystick
+import xbox
 
 import time
 
@@ -7,35 +8,33 @@ import time
 
 ## Configurable ##
 MESSAGE_RATE = 20
-PUPPER_COLOR = {"red":0, "blue":0, "green":255}
 
 joystick_pub = Publisher(8830)
 joystick_subcriber = Subscriber(8840, timeout=0.01)
-joystick = Joystick()
-joystick.led_color(**PUPPER_COLOR)
+joystick = xbox.Joystick()
 
 while True:
     print("running")
     values = joystick.get_input()
 
-    left_y = -values["left_analog_y"]
-    right_y = -values["right_analog_y"]
-    right_x = values["right_analog_x"]
-    left_x = values["left_analog_x"]
+    left_y = joystick.leftY()
+    right_y = joystick.rightY()
+    right_x = joystick.rightX()
+    left_x = joystick.leftX()
 
-    L2 = values["l2_analog"]
-    R2 = values["r2_analog"]
+    L2 = joystick.leftTrigger()
+    R2 = joystick.rightTrigger()
 
-    R1 = values["button_r1"]
-    L1 = values["button_l1"]
+    R1 = joystick.rightBumper()
+    L1 = joystick.leftBumper()
 
-    square = values["button_square"]
-    x = values["button_cross"]
-    circle = values["button_circle"]
-    triangle = values["button_triangle"]
+    square = joystick.X()
+    x = joystick.A()
+    circle = joystick.B()
+    triangle = joystick.Y()
 
-    dpadx = values["dpad_right"] - values["dpad_left"]
-    dpady = values["dpad_up"] - values["dpad_down"]
+    dpadx = joystick.dpadRight() - joystick.dpadLeft()
+    dpady = joystick.dpadUp() - joystick.dpadDown()
 
     msg = {
         "ly": left_y,
@@ -58,7 +57,6 @@ while True:
 
     try:
         msg = joystick_subcriber.get()
-        joystick.led_color(**msg["ps4_color"])
     except timeout:
         pass
 
