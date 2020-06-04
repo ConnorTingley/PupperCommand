@@ -15,43 +15,47 @@ joystick = xbox.Joystick()
 while True:
     print("running")
 
-    left_y = joystick.leftY()
-    right_y = joystick.rightY()
-    right_x = joystick.rightX()
-    left_x = joystick.leftX()
+    if (not joystick.connected()):
+        joystick = xbox.Joystick()
+    else:
 
-    L2 = joystick.leftTrigger()
-    R2 = joystick.rightTrigger()
+        left_y = joystick.leftY()
+        right_y = joystick.rightY()
+        right_x = joystick.rightX()
+        left_x = joystick.leftX()
 
-    R1 = joystick.rightBumper()
-    L1 = joystick.leftBumper()
+        L2 = joystick.leftTrigger()
+        R2 = joystick.rightTrigger()
 
-    square = joystick.X()
-    x = joystick.A()
-    circle = joystick.B()
-    triangle = joystick.Y()
+        R1 = joystick.rightBumper()
+        L1 = joystick.leftBumper()
 
-    dpadx = joystick.dpadRight() - joystick.dpadLeft()
-    dpady = joystick.dpadUp() - joystick.dpadDown()
+        square = joystick.X()
+        x = joystick.A()
+        circle = joystick.B()
+        triangle = joystick.Y()
 
-    msg = {
-        "ly": left_y,
-        "lx": left_x,
-        "rx": right_x,
-        "ry": right_y,
-        "L2": L2,
-        "R2": R2,
-        "R1": R1,
-        "L1": L1,
-        "dpady": dpady,
-        "dpadx": dpadx,
-        "x": x,
-        "square": square,
-        "circle": circle,
-        "triangle": triangle,
-        "message_rate": MESSAGE_RATE,
-    }
-    joystick_pub.send(msg)
+        dpadx = joystick.dpadRight() - joystick.dpadLeft()
+        dpady = joystick.dpadUp() - joystick.dpadDown()
+
+        msg = {
+            "ly": left_y,
+            "lx": left_x,
+            "rx": right_x,
+            "ry": right_y,
+            "L2": L2,
+            "R2": R2,
+            "R1": R1,
+            "L1": L1,
+            "dpady": dpady,
+            "dpadx": dpadx,
+            "x": x,
+            "square": square,
+            "circle": circle,
+            "triangle": triangle,
+            "message_rate": MESSAGE_RATE,
+        }
+        joystick_pub.send(msg)
 
     try:
         msg = joystick_subcriber.get()
